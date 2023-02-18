@@ -1,4 +1,4 @@
-[
+const userData = [
     {
       name: 'Tyler-James',
       password: 'AiHU39s',
@@ -179,4 +179,6 @@
       type: 'admin',
       email: 'Tomas19@aol.com'
     }
-  ]
+  ];
+
+  export {userData};
