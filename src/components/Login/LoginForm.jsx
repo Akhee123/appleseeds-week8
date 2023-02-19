@@ -1,34 +1,50 @@
 import { userData } from "../../data/data";
+import Voting from "../Vote/Voting";
 import { useState } from "react";
-import { Navigate, useNavigate } from "react-router-dom";
 
 export default function LoginForm() {
-  const navigate = useNavigate();
-  const navigateToContacts = () => {
-    navigate("/vote");
-  };
-  const [enteredUser, setEnteredUser] = useState("");
+  const [enteredUserEmail, setEnteredUserEmail] = useState("");
   const [enteredPassword, setEnteredPassword] = useState("");
+  const [loggedIn, setLoggedIn] = useState(false);
+  //   const [currentUser, setCurrentUser] = useState(null);
 
   const userChangeHandler = (event) => {
-    setEnteredUser(event.target.value);
+    setEnteredUserEmail(event.target.value);
   };
   const passChangeHandler = (event) => {
     setEnteredPassword(event.target.value);
   };
   const submitHnadler = (event) => {
     event.preventDefault();
-    console.log(enteredUser, enteredPassword);
-    navigateToContacts();
+    const user = userData.find(
+      (element) =>
+        element.email === enteredUserEmail &&
+        element.password === enteredPassword
+    );
+
+    if (user) {
+      // Push user data to local storage
+      localStorage.setItem("currentUser", JSON.stringify(user));
+      setLoggedIn(true);
+      //   setCurrentUser(user);
+      console.log(user);
+    } else {
+      alert("Please Enter A valid Email or Password");
+    }
   };
 
   return (
-    <div>
-      <form onSubmit={submitHnadler}>
-        <input type="text" onChange={userChangeHandler} />
-        <input type="password" onChange={passChangeHandler} />
-        <button type="submit">Login</button>
-      </form>
-    </div>
+    <>
+      {loggedIn && <Voting />}
+      {!loggedIn && (
+        <div>
+          <form onSubmit={submitHnadler}>
+            <input type="text" onChange={userChangeHandler} />
+            <input type="password" onChange={passChangeHandler} />
+            <button type="submit">Login</button>
+          </form>
+        </div>
+      )}
+    </>
   );
 }
