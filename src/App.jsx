@@ -18,10 +18,10 @@ function App() {
   localStorage.setItem("users", JSON.stringify(users));
 
   // Bad Practice!!!!! Will adjust later
-  localStorage.setItem("dog", candidates.dog);
-  localStorage.setItem("cat", candidates.cat);
-  localStorage.setItem("cow", candidates.cow);
-  localStorage.setItem("lion", candidates.lion);
+  localStorage.setItem("Dog", candidates.dog);
+  localStorage.setItem("Cat", candidates.cat);
+  localStorage.setItem("Cow", candidates.cow);
+  localStorage.setItem("Lion", candidates.lion);
 
   return (
     <div className="App">

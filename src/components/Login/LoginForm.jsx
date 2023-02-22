@@ -6,7 +6,7 @@ export default function LoginForm() {
   const [enteredUserEmail, setEnteredUserEmail] = useState("");
   const [enteredPassword, setEnteredPassword] = useState("");
   const [loggedIn, setLoggedIn] = useState(false);
-  //   const [currentUser, setCurrentUser] = useState(null);
+
 
   const userChangeHandler = (event) => {
     setEnteredUserEmail(event.target.value);
