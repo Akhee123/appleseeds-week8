@@ -5,29 +5,20 @@ import User from "../UserPage/User";
 
 export default function Voting() {
   // useStats for voting page
-  const [selectedCandidate, setSelectedCandidate] = useState('Dog'); // Selected Candidate stat
-  const [isAdmin, setIsAdmin] = useState(false);  // Admin Page navigation stat
-  const [isUser, setIsUser] = useState(false);  // User Page navigation stat
-  const [voted, setVoted] = useState(false);  // Vote flag stat
+  const [selectedCandidate, setSelectedCandidate] = useState("Dog"); // Selected Candidate stat
+  const [submitted, setSubmitted] = useState(false); // Submitted Flag
 
   // Current user data
   const currentUser = JSON.parse(localStorage.getItem("currentUser"));
+  const isAdmin = currentUser.type === "admin" ? true : false;
+  const isUser = currentUser.type === "user" ? true : false;
 
   // Get voting user and users data from DB
   const users = JSON.parse(localStorage.getItem("users"));
-  const selectedUser = users.findIndex((element) => element.name === currentUser.name); // Find index of the user in the useres DB
-  // Set vote flag
-  if (users[selectedUser].voted) {
-    setVoted(true);
-  }
-
-  // set user type
-  if (currentUser.type === 'admin') {
-    setIsAdmin(true);
-  }
-  else {
-    setIsUser(true);
-  }
+  const selectedUser = users.findIndex(
+    (element) => element.name === currentUser.name
+  ); // Find index of the user in the useres DB
+  const voted = users[selectedUser].voted;
 
   // Handler for selectedCandidate
   const selectHandler = (event) => {
@@ -47,19 +38,19 @@ export default function Voting() {
       // Vote action
       let vote;
       switch (selectedCandidate) {
-        case 'Dog':
+        case "Dog":
           vote = parseInt(localStorage.getItem("Dog"));
           localStorage.setItem("Dog", ++vote);
           break;
-        case 'Cat':
+        case "Cat":
           vote = parseInt(localStorage.getItem("Cat"));
           localStorage.setItem("Cat", ++vote);
           break;
-        case 'Cow':
+        case "Cow":
           vote = parseInt(localStorage.getItem("Cow"));
           localStorage.setItem("Cow", ++vote);
           break;
-        case 'Lion':
+        case "Lion":
           vote = parseInt(localStorage.getItem("Lion"));
           localStorage.setItem("Lion", ++vote);
           break;
@@ -68,23 +59,26 @@ export default function Voting() {
           break;
       }
     }
+    setSubmitted(true);
   };
 
-  // console.log(voted);
+  console.log(voted);
   return (
     <>
       {(isAdmin && voted) && <Admin />}
       {(isUser && voted) && <User />}
-      {!voted && <div>
-        <select id="candidates" defaultValue='Dog' onChange={selectHandler}>
-          {/* Bad Practice!!!!! Will adjust later */}
-          <option value="Dog">Dog</option>
-          <option value="Cat">Cat</option>
-          <option value="Cow">Cow</option>
-          <option value="Lion">Lion</option>
-        </select>
-        <button onClick={voteHandler}>Vote</button>
-      </div>}
+      {!voted && (
+        <div>
+          <select id="candidates" defaultValue="Dog" onChange={selectHandler}>
+            {/* Bad Practice!!!!! Will adjust later */}
+            <option value="Dog">Dog</option>
+            <option value="Cat">Cat</option>
+            <option value="Cow">Cow</option>
+            <option value="Lion">Lion</option>
+          </select>
+          <button onClick={voteHandler}>Vote</button>
+        </div>
+      )}
     </>
   );
 }
